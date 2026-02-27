@@ -1,6 +1,4 @@
 import java.util.Scanner;
-import java.util.Deque;
-import java.util.LinkedList;
 
 public class PalindromeCheckerApp {
 
@@ -11,28 +9,15 @@ public class PalindromeCheckerApp {
         System.out.println("Enter a string to check palindrome:");
         String input = scanner.nextLine();
 
-        Deque<Character> deque = new LinkedList<>();
+        String reversed = "";
 
-        // Insert characters into deque
-        for (int i = 0; i < input.length(); i++) {
-            deque.addLast(input.charAt(i));
+        // Reverse string using for loop
+        for (int i = input.length() - 1; i >= 0; i--) {
+            reversed = reversed + input.charAt(i);
         }
 
-        boolean isPalindrome = true;
-
-        // Remove from front and rear and compare
-        while (deque.size() > 1) {
-
-            char front = deque.removeFirst();
-            char rear = deque.removeLast();
-
-            if (front != rear) {
-                isPalindrome = false;
-                break;
-            }
-        }
-
-        if (isPalindrome) {
+        // Compare original and reversed
+        if (input.equals(reversed)) {
             System.out.println(input + " is a Palindrome");
         } else {
             System.out.println(input + " is NOT a Palindrome");
