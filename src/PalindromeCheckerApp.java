@@ -1,6 +1,9 @@
-public class PalindromeCheckerApp {
+class PalindromeChecker {
 
-    public static boolean isPalindrome(String input) {
+    // Method to check palindrome
+    public boolean checkPalindrome(String input) {
+
+        // Normalize string (remove spaces and convert to lowercase)
         String normalized = input.replaceAll("\\s+", "").toLowerCase();
 
         int start = 0;
@@ -16,12 +19,17 @@ public class PalindromeCheckerApp {
 
         return true;
     }
+}
+
+public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        String input = "Never Odd Or Even";
+        PalindromeChecker checker = new PalindromeChecker();
 
-        if (isPalindrome(input)) {
+        String input = "A man a plan a canal Panama";
+
+        if (checker.checkPalindrome(input)) {
             System.out.println("\"" + input + "\" is a Palindrome");
         } else {
             System.out.println("\"" + input + "\" is NOT a Palindrome");
