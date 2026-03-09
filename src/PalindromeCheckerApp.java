@@ -1,23 +1,65 @@
-class PalindromeChecker {
+import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
-    // Method to check palindrome
+interface PalindromeStrategy {
+    boolean checkPalindrome(String input);
+}
+
+class StackStrategy implements PalindromeStrategy {
+
     public boolean checkPalindrome(String input) {
 
-        // Normalize string (remove spaces and convert to lowercase)
         String normalized = input.replaceAll("\\s+", "").toLowerCase();
 
-        int start = 0;
-        int end = normalized.length() - 1;
+        Stack<Character> stack = new Stack<>();
 
-        while (start < end) {
-            if (normalized.charAt(start) != normalized.charAt(end)) {
+        for (char c : normalized.toCharArray()) {
+            stack.push(c);
+        }
+
+        for (char c : normalized.toCharArray()) {
+            if (c != stack.pop()) {
                 return false;
             }
-            start++;
-            end--;
         }
 
         return true;
+    }
+}
+
+class DequeStrategy implements PalindromeStrategy {
+
+    public boolean checkPalindrome(String input) {
+
+        String normalized = input.replaceAll("\\s+", "").toLowerCase();
+
+        Deque<Character> deque = new ArrayDeque<>();
+
+        for (char c : normalized.toCharArray()) {
+            deque.addLast(c);
+        }
+
+        while (deque.size() > 1) {
+            if (deque.removeFirst() != deque.removeLast()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+
+class PalindromeService {
+
+    private PalindromeStrategy strategy;
+
+    public PalindromeService(PalindromeStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public boolean check(String input) {
+        return strategy.checkPalindrome(input);
     }
 }
 
@@ -25,11 +67,13 @@ public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        PalindromeChecker checker = new PalindromeChecker();
+        String input = "Never Odd Or Even";
 
-        String input = "A man a plan a canal Panama";
+        PalindromeService service = new PalindromeService(new StackStrategy());
 
-        if (checker.checkPalindrome(input)) {
+        boolean result = service.check(input);
+
+        if (result) {
             System.out.println("\"" + input + "\" is a Palindrome");
         } else {
             System.out.println("\"" + input + "\" is NOT a Palindrome");
